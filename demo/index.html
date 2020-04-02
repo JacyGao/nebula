@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<style>
+    input:focus, textarea:focus, select:focus{
+        outline: none;
+    }
+</style>
+<body>
+
+<div id="demo">
+  <h2>Your Nebula server is up and running on localhost:8090</h2>
+<p><textarea id="code" style="width:800px; height:600px; font-size: 13px;"></textarea></p>
+  <button type="button" onclick="loadDoc()">Compile</button>
+  <button type="button" onclick="formatDoc()">Format</button>
+  <button type="button" onclick="loadDoc()">Submit</button>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.ajax({ 
+            type: "GET",
+            dataType: "json",
+            url: "http://localhost:8090/function",
+            success: function(data){        
+                $('#code').append(data.data); 
+            }
+        });
+    });
+    function formatDoc() {
+        var code = $("#code").val()
+        $.ajax({ 
+            type: "POST",
+            dataType: "json",
+            data: {"id": 12345, "data": code},
+            url: "http://localhost:8090/format",
+            success: function(data){        
+                $('#code').append(data.data); 
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

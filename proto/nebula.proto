@@ -1,0 +1,18 @@
+syntax = "proto3";
+package proto;
+
+// Your Nebula service definition.
+service Nebula {
+  // Sends Ping and receives Pong
+  rpc PingPong (PingPongRequest) returns (PingPongReply) {}
+}
+
+// The request message containing a message ping.
+message PingPongRequest {
+  string message = 1;
+}
+
+// The response message containing a reply pong.
+message PingPongReply {
+  string message = 1;
+}
