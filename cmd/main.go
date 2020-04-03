@@ -77,6 +77,7 @@ func format(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&obj); err != nil {
+		log.Println(err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -101,7 +102,8 @@ func format(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return
 	}
 
-	cmd := exec.Command("gofmt", "formatter/server.go")
+	cmd := exec.Command("make", "fmt")
+	cmd.Dir = "./"
 	if err := cmd.Run(); err != nil {
 		log.Printf("cmd error: %s", err.Error())
 		w.WriteHeader(http.StatusInternalServerError)

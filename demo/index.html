@@ -31,10 +31,10 @@
         $.ajax({ 
             type: "POST",
             dataType: "json",
-            data: {"id": 12345, "data": code},
+            data: JSON.stringify({"id": "12345", "data": code}),
             url: "http://localhost:8090/format",
             success: function(data){        
-                $('#code').append(data.data); 
+                $('#code').val(data.data); 
             }
         });
     }
