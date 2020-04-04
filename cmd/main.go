@@ -103,10 +103,24 @@ func format(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	}
 
 	cmd := exec.Command("make", "fmt")
-	cmd.Dir = "./"
-	if err := cmd.Run(); err != nil {
-		log.Printf("cmd error: %s", err.Error())
-		w.WriteHeader(http.StatusInternalServerError)
+	cmd.Dir = "./formatter"
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		s := strings.TrimPrefix(string(out), "go fmt server.go\n")
+		res := struct {
+			Err string `json:"err"`
+		}{
+			Err: s,
+		}
+		resJSON, err := json.Marshal(res)
+		if err != nil {
+			log.Println(err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write(resJSON)
 		return
 	}
 

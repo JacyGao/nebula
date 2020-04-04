@@ -13,7 +13,7 @@ type Server struct {
 }
 
 // PingPong implements the nebula server
-func (s *Server) PingPong(ctx context.Context, in *pb.PingPongRequest) (*pb.PingPongReply, error) {
+func (s *Server) PingPong(ctx context.Context, in *pb.PingPongRequest) (*pb.PingPong Reply, error) {
 	log.Printf("Received: %v", in.GetMessage())
 	return &pb.PingPongReply{Message: "Pong"}, nil
 }
