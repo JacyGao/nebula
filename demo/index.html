@@ -9,7 +9,8 @@
 
 <div id="demo">
   <h2>Your Nebula server is up and running on localhost:8090</h2>
-<p><textarea id="code" style="width:800px; height:600px; font-size: 13px; background-color: #000000; color: #FFFFFF; line-height: 20px;"></textarea></p>
+  <p><textarea id="code" style="width:800px; height:600px; font-size: 13px; background-color: #000000; color: #FFFFFF; line-height: 20px; resize: none;"></textarea></p>
+  <p><textarea id="output" style="width:800px; height:100px; font-size: 13px; line-height: 20px; resize: none;" disabled></textarea></p>
   <button type="button" onclick="compileDoc()">Compile</button>
   <button type="button" onclick="formatDoc()">Format</button>
   <button type="button" onclick="publicDoc()">Publish</button>
@@ -27,6 +28,7 @@
         });
     });
     function formatDoc() {
+        $('#output').val('');
         var code = $("#code").val()
         $.ajax({ 
             type: "POST",
@@ -35,6 +37,11 @@
             url: "http://localhost:8090/format",
             success: function(data){        
                 $('#code').val(data.data); 
+            },
+            statusCode: {
+                400: function(data) {
+                    $('#output').val(JSON.parse(data.responseText).err); 
+                },
             }
         });
     }
