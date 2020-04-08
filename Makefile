@@ -1,3 +1,3 @@
 # Makefile
-run:
-	go run cmd/main.go
+run-api:
+	go run api/main.go

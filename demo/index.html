@@ -28,7 +28,7 @@
         });
     });
     function formatDoc() {
-        $('#output').val('');
+        $('#output').val('Waiting for remote server...');
         var code = $("#code").val()
         $.ajax({ 
             type: "POST",
@@ -36,6 +36,7 @@
             data: JSON.stringify({"id": "12345", "data": code}),
             url: "http://localhost:8090/format",
             success: function(data){        
+                $('#output').val('');
                 $('#code').val(data.data); 
             },
             statusCode: {
