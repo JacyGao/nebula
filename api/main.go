@@ -181,17 +181,17 @@ func compile(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return
 	}
 
-	if err := os.Rename(f.Name(), "vulcan/server/server.go"); err != nil {
+	if err := os.Rename(f.Name(), "nebula/server/server.go"); err != nil {
 		log.Println(err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	cmd := exec.Command("make", "build")
-	cmd.Dir = "./vulcan"
+	cmd.Dir = "./nebula"
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		s := strings.TrimPrefix(string(out), "go build -o bin/valcan main.go\n")
+		s := strings.TrimPrefix(string(out), "go build -o bin/nebula-server main.go\n")
 		res := struct {
 			Err string `json:"err"`
 		}{

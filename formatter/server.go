@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	pb "polyglotte/proto"
+	pb "nebula/proto"
 )
 
 // server is used to implement the nebula server.

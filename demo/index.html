@@ -17,11 +17,12 @@
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
+    const HOST = "http://localhost:8090"
     $(document).ready(function(){
         $.ajax({ 
             type: "GET",
             dataType: "json",
-            url: "http://localhost:8090/function",
+            url: HOST + "/function",
             success: function(data){        
                 $('#code').append(data.data); 
             }
@@ -34,10 +35,28 @@
             type: "POST",
             dataType: "json",
             data: JSON.stringify({"id": "12345", "data": code}),
-            url: "http://localhost:8090/format",
+            url: HOST + "/format",
             success: function(data){        
                 $('#output').val('');
                 $('#code').val(data.data); 
+            },
+            statusCode: {
+                400: function(data) {
+                    $('#output').val(JSON.parse(data.responseText).err); 
+                },
+            }
+        });
+    }
+    function compileDoc() {
+        $('#output').val('Waiting for remote server...');
+        var code = $("#code").val()
+        $.ajax({ 
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify({"id": "12345", "data": code}),
+            url: HOST + "/compile",
+            success: function(data){        
+                $('#output').val('');
             },
             statusCode: {
                 400: function(data) {
