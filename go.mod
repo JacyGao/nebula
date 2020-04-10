@@ -1,4 +1,4 @@
-module polyglotte
+module nebula
 
 go 1.12
 
