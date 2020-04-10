@@ -1,3 +1,3 @@
 # Makefile
 build:
-	go build -o bin/vulcan main.go
+	go build -o bin/nebula-server main.go
