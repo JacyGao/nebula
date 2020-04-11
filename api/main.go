@@ -11,6 +11,8 @@ import (
 	"os/exec"
 	"strings"
 
+	"nebula/api/data"
+
 	"github.com/julienschmidt/httprouter"
 	"github.com/rs/cors"
 )
@@ -31,9 +33,7 @@ func main() {
 }
 
 func backend(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	obj := struct {
-		ID string `json:"id"`
-	}{}
+	obj := &data.BackendRequest{}
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&obj); err != nil {
@@ -52,10 +52,7 @@ func functionGet(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return
 	}
 
-	res := struct {
-		Data        string `json:"data"`
-		DownloadURL string `json:"url"`
-	}{
+	res := &data.FunctionGetResponse{
 		Data:        string(content),
 		DownloadURL: "",
 	}
@@ -72,10 +69,7 @@ func functionGet(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func format(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	obj := struct {
-		ID   string `json:"id"`
-		Data string `json:"data"`
-	}{}
+	obj := &data.FormatRequest{}
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&obj); err != nil {
@@ -110,9 +104,7 @@ func format(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		s := strings.TrimPrefix(string(out), "go fmt server.go\n")
-		res := struct {
-			Err string `json:"err"`
-		}{
+		res := &data.ErrResponse{
 			Err: s,
 		}
 		resJSON, err := json.Marshal(res)
@@ -135,9 +127,7 @@ func format(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return
 	}
 
-	res := struct {
-		Data string `json:"data"`
-	}{
+	res := &data.FormatResponse{
 		Data: string(content),
 	}
 
@@ -154,11 +144,7 @@ func format(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func compile(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	obj := struct {
-		ID   string `json:"id"`
-		Data string `json:"data"`
-		OS   string `json:"os"`
-	}{}
+	obj := &data.CompileRequest{}
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&obj); err != nil {
@@ -192,9 +178,7 @@ func compile(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		s := strings.TrimPrefix(string(out), "go build -o bin/nebula-server main.go\n")
-		res := struct {
-			Err string `json:"err"`
-		}{
+		res := &data.ErrResponse{
 			Err: s,
 		}
 		resJSON, err := json.Marshal(res)
@@ -208,6 +192,5 @@ func compile(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		w.Write(resJSON)
 		return
 	}
-
 	w.WriteHeader(http.StatusOK)
 }
