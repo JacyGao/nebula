@@ -26,6 +26,7 @@ func main() {
 	// router.POST("/function", functionPost)
 	router.POST("/compile", compile)
 	router.POST("/format", format)
+	router.GET("/download", download)
 
 	handler := cors.AllowAll().Handler(router)
 	log.Printf("Authentication Server listenning on port %d", port)
@@ -193,4 +194,9 @@ func compile(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
+}
+
+func download(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	w.Header().Set("Content-Disposition", "attachment; filename=server.nebula")
+	http.ServeFile(w, r, "nebula/NEBULA-SERVER-GO")
 }

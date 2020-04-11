@@ -1,1 +1,4 @@
+# Exclude Nebula Server Go binary
 bin/nebula-server
+# Exclude Nebula Server docker image
+NEBULA-SERVER-GO

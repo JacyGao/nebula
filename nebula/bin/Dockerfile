@@ -2,4 +2,4 @@ FROM golang:latest
 WORKDIR /app
 COPY . .
 EXPOSE 8080
-CMD ["./vulcan"]
+CMD ["./nebula-server"]
