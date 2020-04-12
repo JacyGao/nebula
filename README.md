@@ -5,6 +5,14 @@ Abstrat away the complexity of application backends so you can focus on what is 
 
 Make it as simple as possible, but not simpler.
 
+## Current status
+Proof of concept.
+
+### Todos
+- [x] Dynamically generate protobuf definition
+- [x] Dynamically generate server GRPC Implementation
+- [x] Dynamically generate client C++ library
+
 ## Start API server
 ```
 make run-api
