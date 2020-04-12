@@ -9,9 +9,9 @@ Make it as simple as possible, but not simpler.
 Proof of concept.
 
 ### Todos
-- [x] Dynamically generate protobuf definition
-- [x] Dynamically generate server GRPC Implementation
-- [x] Dynamically generate client C++ library
+- [ ] Dynamically generate protobuf definition
+- [ ] Dynamically generate server GRPC Implementation
+- [ ] Dynamically generate client C++ library
 
 ## Start API server
 ```
